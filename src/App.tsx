@@ -3,6 +3,7 @@ import {
   BookOpen,
   Brain,
   CheckCircle2,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   ClipboardCheck,
@@ -92,9 +93,11 @@ function clampMastery(value: number) {
 function App() {
   const [selectedId, setSelectedId] = useState(procedures[0].id);
   const [mode, setMode] = useState<Mode>("study");
+  const [drillPickerOpen, setDrillPickerOpen] = useState(false);
   const [progress, setProgress] = useLocalStorageState<Progress>("flying-procedure-progress-v1", initialProgress);
 
   const selected = procedures.find((procedure) => procedure.id === selectedId) ?? procedures[0];
+  const SelectedIcon = categoryIcons[selected.category];
   const selectedMastery = progress.mastery[selected.id] ?? 0;
   const averageMastery = Math.round(
     procedures.reduce((sum, procedure) => sum + (progress.mastery[procedure.id] ?? 0), 0) / procedures.length,
@@ -147,6 +150,61 @@ function App() {
             <p className="eyebrow">Focus Set</p>
             <strong>{procedures.length} drills</strong>
           </div>
+          <div className="mobileProcedurePicker">
+            <span className="mobilePickerLabel">Current drill</span>
+            <button
+              className={`mobilePickerTrigger procedureCard accent-${selected.accent}`}
+              type="button"
+              aria-expanded={drillPickerOpen}
+              onClick={() => setDrillPickerOpen((open) => !open)}
+            >
+              <span className="procedureIcon" aria-hidden="true">
+                <SelectedIcon size={18} />
+              </span>
+              <span className="procedureText">
+                <span className="procedureTitle">{selected.shortTitle}</span>
+              </span>
+              <ChevronDown className={`mobilePickerChevron ${drillPickerOpen ? "open" : ""}`} size={19} aria-hidden="true" />
+            </button>
+            {drillPickerOpen && (
+              <div className="mobileProcedureMenu">
+                {procedures.map((procedure, index) => {
+                  const Icon = categoryIcons[procedure.category];
+                  const active = procedure.id === selected.id;
+                  const mastery = progress.mastery[procedure.id] ?? 0;
+
+                  return (
+                    <Fragment key={procedure.id}>
+                      {index === firstManeuverIndex && (
+                        <div className="procedureSeparator" role="separator" aria-label="Private Pilot Maneuvers">
+                          <span>Private Pilot Maneuvers</span>
+                          <small>Pages 24-30</small>
+                        </div>
+                      )}
+                      <button
+                        className={`procedureCard accent-${procedure.accent} ${active ? "active" : ""}`}
+                        type="button"
+                        onClick={() => {
+                          setSelectedId(procedure.id);
+                          setDrillPickerOpen(false);
+                        }}
+                      >
+                        <span className="procedureIcon" aria-hidden="true">
+                          <Icon size={18} />
+                        </span>
+                        <span className="procedureText">
+                          <span className="procedureTitle">{procedure.shortTitle}</span>
+                        </span>
+                        <span className="miniMeter" aria-label={`${mastery}% mastery`}>
+                          <span style={{ width: `${mastery}%` }} />
+                        </span>
+                      </button>
+                    </Fragment>
+                  );
+                })}
+              </div>
+            )}
+          </div>
           <div className="procedureList">
             {procedures.map((procedure, index) => {
               const Icon = categoryIcons[procedure.category];
@@ -171,9 +229,6 @@ function App() {
                     </span>
                     <span className="procedureText">
                       <span className="procedureTitle">{procedure.shortTitle}</span>
-                      <span className="procedureMeta">
-                        {procedure.memoryCode ? `${procedure.category} - ${procedure.memoryCode}` : procedure.category}
-                      </span>
                     </span>
                     <span className="miniMeter" aria-label={`${mastery}% mastery`}>
                       <span style={{ width: `${mastery}%` }} />

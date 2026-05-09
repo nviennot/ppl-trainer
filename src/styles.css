@@ -171,6 +171,10 @@ h1 {
   margin-bottom: 10px;
 }
 
+.mobileProcedurePicker {
+  display: none;
+}
+
 .procedureList {
   display: grid;
   gap: 9px;
@@ -207,6 +211,7 @@ h1 {
   position: relative;
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
   gap: 10px;
   width: 100%;
   min-height: 76px;
@@ -246,21 +251,13 @@ h1 {
   min-width: 0;
 }
 
-.procedureTitle,
-.procedureMeta {
+.procedureTitle {
   display: block;
 }
 
 .procedureTitle {
   font-weight: 800;
   line-height: 1.15;
-}
-
-.procedureMeta {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 700;
 }
 
 .miniMeter {
@@ -855,10 +852,57 @@ textarea:focus {
     max-height: none;
   }
 
+  .mobileProcedurePicker {
+    position: relative;
+    display: grid;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+
+  .mobilePickerLabel {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .mobilePickerTrigger {
+    width: 100%;
+    grid-template-columns: 34px minmax(0, 1fr) 24px;
+    min-height: 58px;
+  }
+
+  .mobilePickerChevron {
+    color: var(--muted);
+    transition: transform 160ms ease;
+  }
+
+  .mobilePickerChevron.open {
+    transform: rotate(180deg);
+  }
+
+  .mobileProcedureMenu {
+    display: grid;
+    gap: 9px;
+    max-height: min(62vh, 520px);
+    overflow-y: auto;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgb(255 255 255 / 0.96);
+    box-shadow: var(--shadow);
+  }
+
+  .mobileProcedureMenu .procedureCard {
+    min-height: 64px;
+  }
+
+  .mobileProcedureMenu .procedureSeparator {
+    margin-top: 4px;
+  }
+
   .procedureList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    overflow-y: visible;
-    padding-right: 0;
+    display: none;
   }
 
   .procedureHeader {
@@ -871,7 +915,6 @@ textarea:focus {
 }
 
 @media (max-width: 620px) {
-  .procedureList,
   .modeTabs {
     grid-template-columns: 1fr;
   }
