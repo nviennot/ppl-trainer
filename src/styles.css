@@ -1,0 +1,894 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ink: #17201f;
+  --muted: #64706d;
+  --line: #d9e1de;
+  --panel: #ffffff;
+  --panel-soft: #f5f8f7;
+  --page: #edf3f1;
+  --teal: #0f8a83;
+  --amber: #b36b00;
+  --red: #c43b3b;
+  --blue: #286fbe;
+  --green: #398446;
+  --violet: #7458c8;
+  --shadow: 0 18px 50px rgb(23 32 31 / 0.09);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--page);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgb(15 138 131 / 0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgb(40 111 190 / 0.05) 1px, transparent 1px), var(--page);
+  background-size: 42px 42px;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.appShell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgb(255 255 255 / 0.9);
+  backdrop-filter: blur(14px);
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  background: var(--teal);
+  box-shadow: 0 8px 24px rgb(15 138 131 / 0.28);
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  line-height: 1.05;
+}
+
+.sessionStats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat {
+  min-width: 88px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.stat strong {
+  font-size: 1rem;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(230px, 280px) minmax(0, 1fr) minmax(270px, 360px);
+  gap: 18px;
+  padding: 18px;
+}
+
+.procedureRail,
+.trainerPane,
+.sourcePane {
+  min-width: 0;
+}
+
+.procedureRail {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  max-height: calc(100vh - 106px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.railHeader,
+.sourceHeader,
+.modeHeader,
+.studyTools,
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.railHeader {
+  margin-bottom: 10px;
+}
+
+.procedureList {
+  display: grid;
+  gap: 9px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-gutter: stable;
+}
+
+.procedureSeparator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 8px 0 1px;
+  padding: 11px 2px 6px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.procedureSeparator span {
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.procedureSeparator small {
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.procedureCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px;
+  overflow: hidden;
+  text-align: left;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 8px 20px rgb(23 32 31 / 0.04);
+}
+
+.procedureCard.active {
+  border-color: currentColor;
+  box-shadow: var(--shadow);
+}
+
+.procedureCard::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: currentColor;
+}
+
+.procedureIcon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgb(23 32 31 / 0.06);
+}
+
+.procedureText {
+  min-width: 0;
+}
+
+.procedureTitle,
+.procedureMeta {
+  display: block;
+}
+
+.procedureTitle {
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.procedureMeta {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.miniMeter {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+  left: 56px;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(23 32 31 / 0.08);
+}
+
+.miniMeter span {
+  display: block;
+  height: 100%;
+  background: currentColor;
+}
+
+.accent-teal {
+  color: var(--teal);
+}
+
+.accent-amber {
+  color: var(--amber);
+}
+
+.accent-red {
+  color: var(--red);
+}
+
+.accent-blue {
+  color: var(--blue);
+}
+
+.accent-green {
+  color: var(--green);
+}
+
+.accent-violet {
+  color: var(--violet);
+}
+
+.trainerPane {
+  display: grid;
+  gap: 14px;
+}
+
+.procedureHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.headerText {
+  min-width: 0;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  color: currentColor;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.procedureHeader h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.55rem, 3vw, 2.3rem);
+  line-height: 1.03;
+  color: var(--ink);
+}
+
+.procedureHeader p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.masteryDial {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.masteryDial svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.masteryDial circle {
+  fill: none;
+  stroke-width: 4;
+}
+
+.dialTrack {
+  stroke: rgb(23 32 31 / 0.1);
+}
+
+.dialProgress {
+  stroke: currentColor;
+  stroke-linecap: round;
+  pathLength: 100;
+}
+
+.masteryDial strong {
+  color: var(--ink);
+}
+
+.modeTabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.7);
+}
+
+.modeTabs button,
+.toolButton,
+.primaryButton,
+.secondaryButton,
+.iconButton,
+.pageChips button,
+.revealButton {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.modeTabs button {
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+}
+
+.modeTabs button.active {
+  color: var(--ink);
+  background: var(--panel);
+  box-shadow: 0 6px 18px rgb(23 32 31 / 0.08);
+}
+
+.stepNumber,
+.recallCue span,
+.orderStack span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  background: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.studySurface,
+.recallPanel,
+.sequencePanel,
+.oralPanel {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.studyTools {
+  margin-bottom: 14px;
+}
+
+.studyTools h3 {
+  margin-bottom: 0;
+  color: var(--ink);
+  font-size: 1.22rem;
+}
+
+.toolButton,
+.secondaryButton,
+.iconButton,
+.pageChips button {
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.iconButton {
+  width: 40px;
+  padding: 0;
+}
+
+.studyList {
+  display: grid;
+  gap: 10px;
+}
+
+.studyListItem {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.studyListCopy {
+  min-width: 0;
+}
+
+.studyListCopy strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.studyListCopy p,
+.studyListCopy small,
+.oralAnswer p,
+.answerCheck p {
+  color: var(--muted);
+}
+
+.studyListCopy p,
+.studyListCopy small,
+.answerCheck small {
+  display: block;
+  margin: 5px 0 0;
+}
+
+.studyListCopy p {
+  font-weight: 700;
+}
+
+.studyListCopy small,
+.answerCheck small {
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.inlineReveal {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 0 12px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  font-weight: 800;
+}
+
+.revealButton {
+  justify-self: start;
+  padding: 0 16px;
+  color: #ffffff;
+  border: 0;
+  background: var(--ink);
+}
+
+.oralCard h3,
+.modeHeader h3 {
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.modeHeader {
+  margin-bottom: 14px;
+}
+
+.modeHeader h3 {
+  margin-bottom: 0;
+  font-size: 1.28rem;
+}
+
+.scorePill {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: var(--panel-soft);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.scorePill.pass,
+.answerCheck.pass {
+  color: var(--green);
+  border-color: rgb(57 132 70 / 0.35);
+  background: rgb(57 132 70 / 0.08);
+}
+
+.scorePill.miss,
+.answerCheck.miss {
+  color: var(--red);
+  border-color: rgb(196 59 59 / 0.35);
+  background: rgb(196 59 59 / 0.08);
+}
+
+.recallRows {
+  display: grid;
+  gap: 12px;
+}
+
+.recallRow {
+  display: grid;
+  grid-template-columns: minmax(130px, 180px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.recallCue {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 78px;
+  resize: vertical;
+  padding: 10px 12px;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  outline: none;
+}
+
+textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgb(15 138 131 / 0.12);
+}
+
+.answerCheck {
+  grid-column: 2;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.actionBar {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: 0 14px;
+}
+
+.primaryButton {
+  color: #ffffff;
+  border: 0;
+  background: var(--ink);
+}
+
+.secondaryButton {
+  color: var(--ink);
+}
+
+.sequenceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.sequenceColumn {
+  min-width: 0;
+}
+
+.sequenceColumn h4 {
+  margin-bottom: 9px;
+}
+
+.choiceStack,
+.orderStack {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 240px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.choiceStack button {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  text-align: left;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.choiceStack span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.orderStack div {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.orderStack div.right {
+  border-color: rgb(57 132 70 / 0.4);
+  background: rgb(57 132 70 / 0.08);
+}
+
+.orderStack div.wrong {
+  border-color: rgb(196 59 59 / 0.4);
+  background: rgb(196 59 59 / 0.08);
+}
+
+.oralPanel {
+  display: grid;
+}
+
+.oralCard {
+  min-height: 300px;
+  display: grid;
+  align-content: center;
+  padding: clamp(20px, 4vw, 44px);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.oralCard h3 {
+  max-width: 720px;
+  font-size: clamp(1.45rem, 3vw, 2.3rem);
+  line-height: 1.08;
+}
+
+.oralAnswer {
+  display: grid;
+  gap: 9px;
+}
+
+.oralAnswer p {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  background: #ffffff;
+  font-weight: 700;
+}
+
+.sourcePane {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.sourceHeader {
+  margin-bottom: 10px;
+}
+
+.pageChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.pageChips button {
+  min-width: 38px;
+  min-height: 34px;
+  padding: 0 8px;
+}
+
+.pageChips button.active {
+  color: #ffffff;
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+.sourcePane img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.safetyNote {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+@media (max-width: 1180px) {
+  .workspace {
+    grid-template-columns: 230px minmax(0, 1fr);
+  }
+
+  .sourcePane {
+    grid-column: 1 / -1;
+    position: static;
+  }
+
+  .sourcePane img {
+    max-height: 520px;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 880px) {
+  .topbar,
+  .workspace {
+    padding: 12px;
+  }
+
+  .topbar,
+  .workspace,
+  .sequenceGrid,
+  .recallRow {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    position: static;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sessionStats {
+    width: 100%;
+  }
+
+  .stat {
+    flex: 1;
+  }
+
+  .procedureRail {
+    position: static;
+    display: block;
+    max-height: none;
+  }
+
+  .procedureList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow-y: visible;
+    padding-right: 0;
+  }
+
+  .procedureHeader {
+    align-items: flex-start;
+  }
+
+  .answerCheck {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .procedureList,
+  .modeTabs {
+    grid-template-columns: 1fr;
+  }
+
+  .procedureHeader {
+    display: grid;
+  }
+
+  .masteryDial {
+    width: 66px;
+    height: 66px;
+  }
+
+  .studySurface,
+  .recallPanel,
+  .sequencePanel,
+  .oralPanel {
+    padding: 12px;
+  }
+}
