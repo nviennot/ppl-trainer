@@ -124,9 +124,9 @@ export const procedures: Procedure[] = [
       },
       {
         id: "altimeter",
-        cue: "Altimeter / VSI / Alt bug",
+        cue: "Altimeter / Alt bug / VSI",
         action: "Altimeter set.",
-        details: ["Within +/- 75 ft of airport elevation.", "VSI 0.", "Altitude bug set."],
+        details: ["Within +/- 75 ft of airport elevation.", "Altitude bug set.", "VSI 0."],
         keywords: ["altimeter", "75", "airport", "vsi", "0", "altitude bug"],
       },
       {
@@ -161,7 +161,7 @@ export const procedures: Procedure[] = [
         answer: [
           "Airspeed 0, canopy closed.",
           "Attitude level, pitch and bank no more than 5 degrees.",
-          "Altimeter set within +/- 75 ft, VSI 0, altitude bug set.",
+          "Altimeter set within +/- 75 ft, altitude bug set, VSI 0.",
           "Ball centered.",
           "Heading bug set to runway.",
           "Heading matches compass or MFD.",
@@ -170,7 +170,7 @@ export const procedures: Procedure[] = [
       },
       {
         prompt: "What must the altimeter and VSI show during the run-up instrument check?",
-        answer: ["Altimeter set within +/- 75 ft of airport elevation.", "VSI 0.", "Altitude bug set."],
+        answer: ["Altimeter set within +/- 75 ft of airport elevation.", "Altitude bug set.", "VSI 0."],
       },
     ],
   }),
@@ -191,8 +191,8 @@ export const procedures: Procedure[] = [
       {
         id: "below-700",
         cue: "After rotation below 700 ft",
-        action: "Lower pitch Vg, maintain directional control, declare, and land straight ahead.",
-        keywords: ["below", "700", "lower pitch", "vg", "directional control", "declare", "straight ahead"],
+        action: "Lower pitch Vg, maintain directional control, declare emergency, and land straight ahead.",
+        keywords: ["below", "700", "lower pitch", "vg", "directional control", "declare emergency", "straight ahead"],
       },
       {
         id: "above-700",
@@ -206,7 +206,7 @@ export const procedures: Procedure[] = [
         prompt: "Give the takeoff emergency briefing you would say during run-up.",
         answer: [
           "On the roll: if RPM is below 4600, engine is not green, or airspeed is not alive, power idle, brake, exit runway.",
-          "Below 700 ft after rotation: lower pitch Vg, directional control, declare, land straight ahead.",
+          "Below 700 ft after rotation: lower pitch Vg, directional control, declare emergency, land straight ahead.",
           "Above 700 ft after rotation: lower pitch Vg, directional control, declare emergency, turn back.",
         ],
       },
@@ -542,7 +542,7 @@ export const procedures: Procedure[] = [
         action: "Below white arc 85: flaps 1, flaps 2, flaps 3.",
         details: ["Pause about 1 second when lowering each flap.", "Note the speed of first indication, usually 55 knots."],
       },
-      { id: "add-power", cue: "Target altitude", action: "Increase power to 4000 rpm and hold target altitude." },
+      { id: "add-power", cue: "Increase power", action: "Increase power to 4000 rpm and hold target altitude." },
       { id: "target-speed", cue: "Target airspeed", action: "Lower pitch to hold 5 knots more than first indication, about 60 knots." },
       { id: "callout", cue: "Callout", action: "Say: Pitch for airspeed and power for altitude.", details: ["Backside of power curve."] },
       { id: "turns", cue: "Turns", action: "When turning, use approximately 10 degrees of bank." },
